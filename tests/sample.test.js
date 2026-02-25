@@ -4,4 +4,4 @@ test('addition works', () => {
 
 test('this test fails', () => {
     expect(1 + 2).toBe(3);
-})
+});
