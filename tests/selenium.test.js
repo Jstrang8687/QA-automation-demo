@@ -15,7 +15,7 @@ test('Google search page loads', async () => {
     try {
         await driver.get('https://www.theimagineerdad.com');
         let title = await driver.getTitle();
-        expect(title).toContain('wish');
+        expect(title).toContain('Wish');
     } finally {
         await driver.quit();
     }
