@@ -22,11 +22,16 @@ test('Google search page loads', async () => {
 }, 30000);
 
 test('User can request a quote', async () => {
+    let options = new chrome.Options();
+        options.addArguments('--headless');
+        options.addArguments('--no-sandbox');
+        options.addArguments('--disable-dev-sh-usage');
+
     let driver = await new Builder()
         .forBrowser('chrome')
         .setChromeOptions(options)
         .build();
-        
+
     await driver.get('https://www.theimagineerdad.com');
 
     let button = await driver.findElement(
