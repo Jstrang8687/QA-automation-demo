@@ -1,7 +1,7 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
-Test('Google search page loads', async () => {
+test('Google search page loads', async () => {
     let options = new chrome.Options();
     options.addArguments('--headless');
     options.addArguments('--no-sandbox');
