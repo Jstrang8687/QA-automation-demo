@@ -12,7 +12,7 @@ pipeline {
         stage('Run QA in Node Container') {
             agent {
                 docker {
-                    image 'node:18-bullseye'
+                    image 'node:20-bullseye'
                     reuseNode true
                     args '-u root'
                 }
