@@ -12,7 +12,7 @@ pipeline {
         stage('Run QA in Node Container') {
             agent {
                 docker {
-                    image 'node:18'
+                    image 'selenium/standalone-chrome:latest'
                     reuseNode true
                     args '-u root'
                 }
