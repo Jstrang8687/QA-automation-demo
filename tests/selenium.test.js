@@ -22,6 +22,11 @@ test('Google search page loads', async () => {
 }, 30000);
 
 test('User can request a quote', async () => {
+    let driver = await new Builder()
+        .forBrowser('chrome')
+        .setChromeOptions(options)
+        .build();
+        
     await driver.get('https://www.theimagineerdad.com');
 
     let button = await driver.findElement(
