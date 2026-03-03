@@ -26,4 +26,26 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'test-report.html',
+                reportName: 'Jest Test Report'
+            ])
+        }
+        failure {
+            mail to: 'jasondstrang@gmail.com',
+                subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                body: "Tests failed! Check the report: ${env.BUILD_URL}"
+        }
+        success {
+            mail to: 'jasondstrang@gmail.com',
+                subject: "PASSED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                body: "All tests passed! Check the report: ${env.BUILD_URL}"
+        }
+    }
 }
