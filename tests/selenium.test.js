@@ -20,3 +20,15 @@ test('Google search page loads', async () => {
         await driver.quit();
     }
 }, 30000);
+
+test('User can request a quote', async () => {
+    await driver.get('https://www.theimagineerdad.com');
+
+    let button = await driver.findElement(
+        By.linkText('Request a Quote')
+    );
+    await button.click();
+
+    let url = await driver.getCurrentUrl();
+    expect(url).not.toBe('https://www.theimagineerdad.com');
+});
