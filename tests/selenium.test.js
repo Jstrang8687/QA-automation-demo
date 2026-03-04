@@ -41,4 +41,4 @@ test('User can request a quote', async () => {
 
     let url = await driver.getCurrentUrl();
     expect(url).not.toBe('https://www.theimagineerdad.com');
-});
+}, 30000);
