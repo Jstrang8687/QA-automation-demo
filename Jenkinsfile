@@ -26,16 +26,10 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            publishHTML([
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: '.',
-                reportFiles: 'test-report.html',
-                reportName: 'Jest Test Report'
-            ])
+        post {
+            always {
+                archiveArtifacts artifacts: 'test-report.html', allowEmptyArchive: true
+            }
         }
         failure {
             mail to: 'jasondstrang@gmail.com',
