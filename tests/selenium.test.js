@@ -9,7 +9,7 @@ options.addArguments('--no-sandbox');
 options.addArguments('--disable-dev-sh-usage');
 
 async function takeScreenshot(driver, testName) {
-    await driver.sleep(2000); // Ensure the page is fully loaded
+    await driver.sleep(10000); // Ensure the page is fully loaded
     const screenshot = await driver.takeScreenshot();   
     const dir = 'screenshots';
     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
@@ -27,7 +27,7 @@ test('Google search page loads', async () => {
         .build();
 
     try {
-        await driver.get('https://www.theimagineerdad.com');
+        await driver.get('https://www.theimagineerdads.com');
         let title = await driver.getTitle();
         expect(title).toContain('Imagineer');
     } catch (err) {
