@@ -35,7 +35,7 @@ test('User can request a quote', async () => {
     await driver.get('https://www.theimagineerdad.com');
 
     let button = await driver.findElement(
-        By.linkText('Request a Free Quote')
+        By.xpath('//*[contains(text(), "Request a Quote")]')
     );
     await button.click();
 
