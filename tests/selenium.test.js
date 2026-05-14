@@ -9,6 +9,7 @@ options.addArguments('--no-sandbox');
 options.addArguments('--disable-dev-sh-usage');
 
 async function takeScreenshot(driver, testName) {
+    await driver.sleep(2000); // Ensure the page is fully loaded
     const screenshot = await driver.takeScreenshot();   
     const dir = 'screenshots';
     if (!fs.existsSync(dir)) fs.mkdirSync(dir);

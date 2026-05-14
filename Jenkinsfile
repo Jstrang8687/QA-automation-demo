@@ -34,7 +34,8 @@ pipeline {
         failure {
             mail to: 'jasondstrang@gmail.com',
                 subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                body: "Tests failed! Check the report:${env.BUILD_URL} Console output: ${env.BUILD_URL}console View them here: ${env.BUILD_URL}artifact/"
+                body: 
+                "Tests failed! Check the report:${env.BUILD_URL}\nConsole output: ${env.BUILD_URL}console \nView them here: ${env.BUILD_URL}artifact/ \nView Screenshot: ${env.BUILD_URL}artifact/screenshots/"
         }
         success {
             mail to: 'jasondstrang@gmail.com',
