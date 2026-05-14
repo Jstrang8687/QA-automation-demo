@@ -40,4 +40,5 @@ pipeline {
 //             mail to: 'jasondstrang@gmail.com',
 //                 subject: "PASSED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
 //                 body: "All tests passed! Check the report: ${env.BUILD_URL}"
-//         }}
+//         }
+}
