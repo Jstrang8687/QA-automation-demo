@@ -29,12 +29,18 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'test-report.html', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
         }
         failure {
             mail to: 'jasondstrang@gmail.com',
                 subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
                 body: "Tests failed! Check the report: ${env.BUILD_URL}"
-        }
+
+                Console output: ${env.BUILD_URL}console
+
+                // Screenshots and HTML report are attached as build artifacts.
+                View them here: ${env.BUILD_URL}artifact/"""
+                    }
         success {
             mail to: 'jasondstrang@gmail.com',
                 subject: "PASSED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
