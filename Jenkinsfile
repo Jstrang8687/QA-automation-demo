@@ -31,14 +31,13 @@ pipeline {
                 archiveArtifacts artifacts: 'test-report.html', allowEmptyArchive: true
             }
         }
-        failure {
-            mail to: 'jasondstrang@gmail.com',
-                subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                body: "Tests failed! Check the report: ${env.BUILD_URL}"
-        }
-        success {
-            mail to: 'jasondstrang@gmail.com',
-                subject: "PASSED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                body: "All tests passed! Check the report: ${env.BUILD_URL}"
-        }
-}
+//         failure {
+//             mail to: 'jasondstrang@gmail.com',
+//                 subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+//                 body: "Tests failed! Check the report: ${env.BUILD_URL}"
+//         }
+//         success {
+//             mail to: 'jasondstrang@gmail.com',
+//                 subject: "PASSED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+//                 body: "All tests passed! Check the report: ${env.BUILD_URL}"
+//         }}
