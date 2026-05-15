@@ -30,7 +30,7 @@ async function takeScreenshot(driver, testName) {
     //Keep only the last 10 screenshots for this test name
     const allScreenshots = fs.readdirSync(dir)
         .filter(f => f.startsWith(testName) && f.endsWith('.png'))
-        .sort(0;).reverse(); // Newest first
+        .sort((a, b) => b.localeCompare(a)); // Newest first
 
     if (allScreenshots.length > 10) {
         const toDelete = allScreenshots.slice(0, allScreenshots.length - 10);
