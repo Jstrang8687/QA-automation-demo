@@ -29,7 +29,7 @@ test('Google search page loads', async () => {
         .build();
 
     try {
-        await driver.get('https://www.theimagineerdads.com');
+        await driver.get('https://www.theimagineerdad.com');
         let title = await driver.getTitle();
         expect(title).toContain('Imagineer');
         await takeScreenshot(driver, 'Google_search_page_loads');
