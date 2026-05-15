@@ -34,6 +34,7 @@ test('Google search page loads', async () => {
         expect(title).toContain('Imagineer');
         await takeScreenshot(driver, 'Google_search_page_loads');
     } catch (err) {
+         await takeScreenshot(driver, 'Google_search_page_loads');
         throw err;
     } finally {
         await driver.quit();
@@ -57,6 +58,7 @@ test('User can request a quote', async () => {
         expect(url).not.toBe('https://www.theimagineerdad.com');
         await takeScreenshot(driver, 'User_can_request_a_quote');
     } catch (err) {
+        await takeScreenshot(driver, 'User_can_request_a_quote');
         throw err;
     } finally {
         await driver.quit();
