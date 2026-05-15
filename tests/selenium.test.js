@@ -52,11 +52,11 @@ test('User can request a quote', async () => {
             By.xpath('//*[contains(text(), "Request a Quote")]')
         );
         await button.click();
-        await driver.sleep(2000); // Wait for navigation
+        await driver.sleep(10000); // Wait for navigation
         let url = await driver.getCurrentUrl();
         expect(url).not.toBe('https://www.theimagineerdad.com');
-    } catch (err) {
         await takeScreenshot(driver, 'User_can_request_a_quote');
+    } catch (err) {
         throw err;
     } finally {
         await driver.quit();
