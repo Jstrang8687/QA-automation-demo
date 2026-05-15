@@ -7,6 +7,8 @@ let options = new chrome.Options();
 options.addArguments('--headless');
 options.addArguments('--no-sandbox');
 options.addArguments('--disable-dev-sh-usage');
+options.addArguments('--window-size=1920,1080');  
+options.addArguments('--force-device-scale-factor=1');
 
 async function takeScreenshot(driver, testName) {
     await driver.sleep(10000); // Ensure the page is fully loaded
@@ -30,8 +32,8 @@ test('Google search page loads', async () => {
         await driver.get('https://www.theimagineerdads.com');
         let title = await driver.getTitle();
         expect(title).toContain('Imagineer');
-    } catch (err) {
         await takeScreenshot(driver, 'Google_search_page_loads');
+    } catch (err) {
         throw err;
     } finally {
         await driver.quit();
