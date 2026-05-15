@@ -1,25 +1,25 @@
 # QA Automation Demo
-
-A full end-to-end QA automation pipeline built with Selenium WebDriver, Jest, Jenkins, and Docker. This project demonstrates real-world QA engineering patterns including black box testing, CI/CD integration, automated reporting, and email notifications.
-
+ 
+A full end-to-end QA automation pipeline built with Selenium WebDriver, Jest, Jenkins, and Docker. This project demonstrates real-world QA engineering patterns including black box testing, CI/CD integration, automated reporting, screenshot capture, and email notifications.
+ 
 ---
-
+ 
 ## What This Does
-
+ 
 Every time code is pushed to GitHub:
-
+ 
 1. GitHub fires a webhook to Jenkins
 2. Jenkins spins up a Node.js Docker container
 3. Chromium and ChromeDriver install inside the container
 4. Jest runs all Selenium test suites
-5. An HTML test report is generated and archived
-6. A pass/fail email notification is sent
-7. GitHub commit status is updated with the result
-
+5. Screenshots are captured during each test with date-stamped filenames
+6. An HTML test report is generated and archived
+7. A pass/fail email notification is sent with links to artifacts
+8. GitHub commit status is updated with the result
 ---
-
+ 
 ## Architecture
-
+ 
 ```
 Developer pushes code
         │
@@ -41,16 +41,25 @@ Chromium   Jest
         ▼
   Test Results
         │
+   ┌────┴─────────┐
+   │              │
+HTML           Screenshots
+Report        (date-stamped,
+                capped at 10
+               per test)
+   │              │
+   └────┬─────────┘
+        │
    ┌────┴────┐
    │         │
-HTML      Email
-Report  Notification
+Email    GitHub
+Notice   Status
 ```
-
+ 
 ---
-
+ 
 ## Tech Stack
-
+ 
 | Tool | Purpose |
 |------|---------|
 | Selenium WebDriver | Browser automation |
@@ -62,70 +71,82 @@ Report  Notification
 | jest-html-reporter | HTML test report generation |
 | ngrok | Webhook tunnel for local Jenkins |
 | GitHub Webhooks | Automatic build triggers |
-
+ 
 ---
-
+ 
 ## Test Suites
-
+ 
 ### `tests/sample.test.js`
 Basic sanity tests to verify the test runner is working correctly.
-
+ 
 ### `tests/selenium.test.js`
 Black box browser tests against a live website:
-
+ 
 | Test | What It Verifies |
 |------|-----------------|
 | Page title loads | Site is reachable and returns expected content |
 | Request a Quote button | Button is present and clickable |
-
+ 
 **Testing Philosophy:** All tests are written from the user's perspective using visible text selectors — no internal IDs or CSS classes. This is intentional black box methodology that catches real user-facing regressions.
-
+ 
 ---
-
+ 
+## Screenshot Capture
+ 
+Every test automatically captures a screenshot of the browser during execution:
+ 
+- **Date-stamped filenames** — `google_search_page_loads-2026-05-15_14-23-45.png`
+- **Capped at 10 per test** — oldest screenshots are automatically deleted when the cap is reached, keeping a clean rolling history
+- **Captured before assertions** — screenshots reflect the actual page state at test time, not after a failure
+- **Archived in Jenkins** — accessible under Build Artifacts after every run
+Screenshot history lets you visually track when something on the page changed and correlate it to a specific build.
+ 
+---
+ 
 ## Pipeline Stages
-
+ 
 ```
 Checkout Code → Run QA in Node Container → Post Actions
                         │                       │
                    npm install            Archive HTML Report
-                   npm test               Send Email Notification
-                   jest                   Update GitHub Status
+                   npm test               Archive Screenshots
+                   jest                   Send Email Notification
+                                          Update GitHub Status
 ```
-
+ 
 ---
-
+ 
 ## How to Run Locally
-
+ 
 ### Prerequisites
 - Docker Desktop
 - Node.js 20+
 - Jenkins running in Docker
-
 ### Clone the repo
 ```bash
 git clone https://github.com/Jstrang8687/QA-automation-demo.git
 cd QA-automation-demo
 ```
-
+ 
 ### Install dependencies
 ```bash
 npm install
 ```
-
+ 
 ### Run tests locally
 ```bash
 npm test
 ```
-
+ 
 ### Run the full pipeline
 Push any commit to `main` — the Jenkins webhook will trigger automatically.
-
+ 
 ---
-
+ 
 ## Jenkins Setup
-
+ 
 Jenkins runs inside Docker with Docker-in-Docker support:
-
+ 
 ```bash
 docker run -d \
   --name jenkins \
@@ -134,35 +155,37 @@ docker run -d \
   -v jenkins_home:/var/jenkins_home \
   jenkins/jenkins:lts
 ```
-
+ 
 The pipeline is defined in `Jenkinsfile` at the root of the repo and uses a Multibranch Pipeline job.
-
+ 
 ---
-
+ 
 ## Test Report
-
+ 
 After every build an HTML report is archived in Jenkins showing:
 - Total tests run
 - Pass / fail count
 - Failure messages and stack traces
 - Timestamp
-
 Navigate to the build in Jenkins and click **test-report.html** under **Build Artifacts** to view it.
-
+ 
 ---
-
+ 
 ## Email Notifications
-
+ 
 Jenkins sends an automated email after every build:
-- ✅ **PASSED** — all tests green
-- ❌ **FAILED** — includes build URL for investigation
-
+ 
+- ✅ **PASSED** — confirms all tests green with a link to the build
+- ❌ **FAILED** — includes direct links to:
+  - Console output
+  - HTML test report
+  - Screenshot artifacts
 ---
 
 ## Roadmap
 
 ### Near Term
-- [ ] Screenshot capture on test failure — saves browser state at the moment a test fails for easier debugging
+- [x] Screenshot capture on test failure — saves browser state at the moment a test fails for easier debugging
 - [ ] Test coverage across multiple pages — extend selenium tests to cover additional user flows beyond the homepage
 - [ ] Docker layer caching — eliminate the 640MB Chromium reinstall on every build to significantly reduce build times
 
