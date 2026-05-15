@@ -50,7 +50,7 @@ test('Google search page loads', async () => {
         .build();
 
     try {
-        await driver.get('https://www.theimagineerdads.com');
+        await driver.get('https://www.theimagineerdad.com');
         let title = await driver.getTitle();
         expect(title).toContain('Imagineer');
         await takeScreenshot(driver, 'Google_search_page_loads');
@@ -69,7 +69,7 @@ test('User can request a quote', async () => {
         .setChromeOptions(options)
         .build();
     try {
-        await driver.get('https://www.theimagineerdads.com');
+        await driver.get('https://www.theimagineerdad.com');
         let button = await driver.findElement(
             By.xpath('//*[contains(text(), "Request a Quote")]')
         );
